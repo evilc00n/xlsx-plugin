@@ -36,7 +36,7 @@ from plugin_example import views
 
 router = SimpleRouter()
 urlpatterns = [
-    path('', views.ProjectListView.as_view(), name='index'),
+    path('', views.UploadPageView.as_view(), name='index'),
     path(
         'upload-file/',
         login_required(views.UploadFileApiView.as_view()),

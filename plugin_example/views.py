@@ -39,17 +39,29 @@ from rest_framework.serializers import Serializer
 from plugin_example.xlsx_parser_lib.xlsx_parser import XlsxParser
 
 
-class ProjectListView(ListView):
-    model = Project
-    queryset = Project.objects.all()
-    template_name = 'upload.html'
-    context_object_name = 'projects'
+# class ProjectListView(ListView):
+#     model = Project
+#     queryset = Project.objects.all()
+#     template_name = 'upload.html'
+#     context_object_name = 'projects'
 
-class SuitListView(ListView):
-    model = TestSuite
-    queryset = TestSuite.objects.all()
+# class SuitListView(ListView):
+#     model = TestSuite
+#     queryset = TestSuite.objects.all()
+#     template_name = 'upload.html'
+#     context_object_name = 'testsuits'
+
+
+class UploadPageView(TemplateView):
     template_name = 'upload.html'
-    context_object_name = 'testsuits'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['projects'] = Project.objects.all()
+        context['testsuits'] = TestSuite.objects.all()
+        return context
+
+
 
 class UploadFileApiView(CreateAPIView):
     serializer_class = Serializer
