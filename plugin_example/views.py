@@ -35,6 +35,7 @@ from django.urls import reverse
 from django.views.generic import ListView
 from rest_framework.generics import CreateAPIView
 from rest_framework.serializers import Serializer
+from django.views.generic import TemplateView
 
 from plugin_example.xlsx_parser_lib.xlsx_parser import XlsxParser
 
