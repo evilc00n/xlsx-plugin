@@ -38,15 +38,19 @@ from .exceptions import InvalidXlsx
 
 
 class XlsxParser:
-    def __init__(self, xlsx_file: bytes, project_id: int):
+    def __init__(self, xlsx_file: bytes, project_id: int, test_suit_name: str):
         self.ws: Worksheet = load_workbook(xlsx_file).active
         self.project_id = project_id
+        self.test_suit_name = test_suit_name
 
     @transaction.atomic
     def create_suites_with_cases(self):
         cases = []
         suites_counter = 0
-        tmp_suite = None
+        tmp_suite = TestSuite.objects.create(
+                project_id=self.project_id,
+                name=self.test_suit_name,
+            )       
         for idx, row in enumerate(self.ws.iter_rows(), 1):
             try:
                 number_cell, priority_cell, subject_cell, description_cell = row
@@ -65,12 +69,11 @@ class XlsxParser:
             #     )
             #     suites_counter += 1
 
+
+
             empty_cells = []
             if not number_cell.value:
                 empty_cells.append("number_cell")
-                empty_cells.append(priority_cell.value)
-                empty_cells.append(subject_cell.value)
-                empty_cells.append(description_cell.value)
             if not priority_cell.value:
                 empty_cells.append("priority_cell")
             if not subject_cell.value:
@@ -87,6 +90,7 @@ class XlsxParser:
             cases.append(
                 TestCase(
                     project_id=self.project_id,
+                    suite = tmp_suite,
                     scenario=description_cell.value,
                     name=subject_cell.value,
                     description=number_cell.value,

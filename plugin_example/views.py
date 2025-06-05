@@ -29,6 +29,7 @@
 # For more information on this, and how to apply and follow the GNU AGPL, see
 # <http://www.gnu.org/licenses/>.
 from testy.core.models import Project
+from testy.tests_description.models import TestSuite
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import ListView
@@ -44,15 +45,22 @@ class ProjectListView(ListView):
     template_name = 'upload.html'
     context_object_name = 'projects'
 
+class SuitListView(ListView):
+    model = TestSuite
+    queryset = TestSuite.objects.all()
+    template_name = 'upload.html'
+    context_object_name = 'suit'
 
 class UploadFileApiView(CreateAPIView):
     serializer_class = Serializer
 
     def create(self, request, *args, **kwargs):
-        model_name = request.POST.get('selector')
-        project = get_object_or_404(Project, name=model_name)
+        project_model_name = request.POST.get('selector')
+        testsuit_model_name = request.POST.get('testsuit_selector')
+        project = get_object_or_404(Project, name=project_model_name)
+        test_suit = get_object_or_404(TestSuite, name=testsuit_model_name)
         file = request.FILES.get('file')
-        parser = XlsxParser(file, project.id)
+        parser = XlsxParser(file, project.id, test_suit.name)
         try:
             suites_count, cases_count = parser.create_suites_with_cases()
             response_text = (

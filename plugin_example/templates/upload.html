@@ -18,6 +18,15 @@
 
   <br><br>
 
+  <label for="testsuit_selector">Select a testsuit:</label>
+  <select name="testsuit_selector" id="testsuit_selector">
+   {% for suit in testsuits %}
+    <option value="{{ suit }}">{{ suit }}</option>
+   {% endfor %}
+  </select>
+
+  <br><br>
+
   <label for="file">Choose a file:</label>
   <input type="file" name="file" id="file">
 
