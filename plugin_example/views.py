@@ -49,7 +49,7 @@ class SuitListView(ListView):
     model = TestSuite
     queryset = TestSuite.objects.all()
     template_name = 'upload.html'
-    context_object_name = 'suit'
+    context_object_name = 'testsuits'
 
 class UploadFileApiView(CreateAPIView):
     serializer_class = Serializer
