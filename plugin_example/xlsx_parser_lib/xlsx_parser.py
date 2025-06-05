@@ -68,6 +68,9 @@ class XlsxParser:
             empty_cells = []
             if not number_cell.value:
                 empty_cells.append("number_cell")
+                empty_cells.append(priority_cell.value)
+                empty_cells.append(subject_cell.value)
+                empty_cells.append(description_cell.value)
             if not priority_cell.value:
                 empty_cells.append("priority_cell")
             if not subject_cell.value:
