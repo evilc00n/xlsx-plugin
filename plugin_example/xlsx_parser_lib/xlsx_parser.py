@@ -47,7 +47,7 @@ class XlsxParser:
     def create_suites_with_cases(self):
         cases = []
         suites_counter = 0
-        tmp_suite = TestSuite.objects.create(
+        tmp_suite = TestSuite.objects.get(
                 project_id=self.project_id,
                 name=self.test_suit_name,
             )       
